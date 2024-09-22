@@ -45,7 +45,7 @@ namespace Proculite.RelayControl.Services
             _gpioController = new GpioController();
             foreach (int pin in _allPinNumbers)
             {
-                _gpioController.OpenPin(pin, PinMode.Output, PinValue.Low);
+                _gpioController.OpenPin(pin, PinMode.Output, PinValue.High);
             }
         }
 
@@ -69,7 +69,7 @@ namespace Proculite.RelayControl.Services
             {
                 return;
             }
-            _gpioController.Write(pin, PinValue.High);
+            _gpioController.Write(pin, PinValue.Low);
         }
 
         public void PinOff(HttpRequest request, int pin)
@@ -78,7 +78,7 @@ namespace Proculite.RelayControl.Services
             {
                 return;
             }
-            _gpioController.Write(pin, PinValue.Low);
+            _gpioController.Write(pin, PinValue.High);
         }
 
         public async Task PinBlink(HttpRequest request, int pin)
@@ -89,11 +89,11 @@ namespace Proculite.RelayControl.Services
             }
 
             _logger.LogInformation("Blinking {number}.", pin);
-            _gpioController.Write(pin, PinValue.Low);
-            await Task.Delay(500);
             _gpioController.Write(pin, PinValue.High);
-            await Task.Delay(1000);
+            await Task.Delay(500);
             _gpioController.Write(pin, PinValue.Low);
+            await Task.Delay(1000);
+            _gpioController.Write(pin, PinValue.High);
         }
     }
 }
