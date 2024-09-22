@@ -45,7 +45,7 @@ namespace Proculite.RelayControl.Services
             _gpioController = new GpioController();
             foreach (int pin in _allPinNumbers)
             {
-                _gpioController.OpenPin(pin);
+                _gpioController.OpenPin(pin, PinMode.Output);
             }
         }
 
