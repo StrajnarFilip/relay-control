@@ -64,6 +64,16 @@ namespace Proculite.RelayControl.Services
             return accessiblePins.Any(pin => pin.Number == pinToCheck);
         }
 
+        private void SetPinActive(Pin pin)
+        {
+            _gpioController.Write(pin.Number, pin.ActiveHigh ? PinValue.High : PinValue.Low);
+        }
+
+        private void SetPinInactive(Pin pin)
+        {
+            _gpioController.Write(pin.Number, pin.ActiveHigh ? PinValue.Low : PinValue.Low);
+        }
+
         public void PinOn(HttpRequest request, int pin)
         {
             if (!PinIsAccessible(request, pin))
