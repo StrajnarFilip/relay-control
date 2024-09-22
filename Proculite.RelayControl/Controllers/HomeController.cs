@@ -29,7 +29,6 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    [Route("{pin}")]
     public IActionResult PinOn(int pin)
     {
         _logger.LogInformation("Pin number {number} blink request.", pin);
@@ -38,7 +37,6 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    [Route("{pin}")]
     public IActionResult PinOff(int pin)
     {
         _logger.LogInformation("Pin number {number} blink request.", pin);
@@ -47,7 +45,6 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    [Route("{pin}")]
     public IActionResult PinBlink(int pin)
     {
         _logger.LogInformation("Pin number {number} blink request.", pin);
