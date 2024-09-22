@@ -18,6 +18,13 @@ public class HomeController : Controller
         return View();
     }
 
+    [HttpPost]
+    public IActionResult SetKey(string key)
+    {
+        this.Response.Cookies.Append("key", key);
+        return RedirectToAction("Index");
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
