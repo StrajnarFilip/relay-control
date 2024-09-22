@@ -1,5 +1,5 @@
-using Proculite.RelayControl.Models;
 using System.Device.Gpio;
+using Proculite.RelayControl.Models;
 
 namespace Proculite.RelayControl.Services
 {
@@ -41,7 +41,7 @@ namespace Proculite.RelayControl.Services
                 .ToArray();
 
             _gpioController = new GpioController();
-            foreach(int pin in _allPinNumbers)
+            foreach (int pin in _allPinNumbers)
             {
                 _gpioController.OpenPin(pin);
             }
@@ -63,7 +63,7 @@ namespace Proculite.RelayControl.Services
 
         public void PinOn(HttpRequest request, int pin)
         {
-            if(!PinIsAccessible(request, pin))
+            if (!PinIsAccessible(request, pin))
             {
                 return;
             }
@@ -72,7 +72,7 @@ namespace Proculite.RelayControl.Services
 
         public void PinOff(HttpRequest request, int pin)
         {
-            if(!PinIsAccessible(request, pin))
+            if (!PinIsAccessible(request, pin))
             {
                 return;
             }
@@ -81,7 +81,7 @@ namespace Proculite.RelayControl.Services
 
         public async Task PinBlink(HttpRequest request, int pin)
         {
-            if(!PinIsAccessible(request, pin))
+            if (!PinIsAccessible(request, pin))
             {
                 return;
             }
