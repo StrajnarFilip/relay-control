@@ -1,4 +1,14 @@
-﻿@model int[]
+﻿@model Pin[]
 @{
     ViewData["Title"] = "Home Page";
+}
+
+@foreach(Pin pin in Model)
+{
+    <div>
+        <span>@(pin.Name) (@(pin.Number))</span>
+        <a class="btn btn-success btn-lg">On</a>
+        <a class="btn btn-danger btn-lg">Off</a>
+        <a class="btn btn-info btn-lg">Blink</a>
+    </div>
 }
