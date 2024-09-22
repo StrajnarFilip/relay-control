@@ -31,7 +31,7 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult PinOn(int pin)
     {
-        _logger.LogInformation("Pin number {number} blink request.", pin);
+        _logger.LogInformation("Pin number {number} on request.", pin);
         _pinService.PinOn(Request, pin);
         return RedirectToAction("Index");
     }
@@ -39,7 +39,7 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult PinOff(int pin)
     {
-        _logger.LogInformation("Pin number {number} blink request.", pin);
+        _logger.LogInformation("Pin number {number} off request.", pin);
         _pinService.PinOff(Request, pin);
         return RedirectToAction("Index");
     }
