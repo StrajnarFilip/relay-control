@@ -76,7 +76,7 @@ namespace Proculite.RelayControl.Services
 
         private void SetPinInactive(Pin pin)
         {
-            _gpioController.Write(pin.Number, pin.ActiveHigh ? PinValue.Low : PinValue.Low);
+            _gpioController.Write(pin.Number, pin.ActiveHigh ? PinValue.Low : PinValue.High);
         }
 
         public void PinOn(HttpRequest request, int pinNumber)
