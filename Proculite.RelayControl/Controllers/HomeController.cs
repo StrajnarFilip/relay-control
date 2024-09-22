@@ -7,10 +7,20 @@ namespace Proculite.RelayControl.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IConfiguration _configuration;
+    private readonly KeyPinControl[] _keyPinControl;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
     {
         _logger = logger;
+        _configuration = configuration;
+        _keyPinControl = configuration.GetSection("KeyPinControl")
+            .GetChildren()
+            .Select(keyPinControl => new KeyPinControl{
+                Key = keyPinControl.GetSection("Key").Get<string>() ?? "",
+                Pins = keyPinControl.GetSection("Pins").GetChildren().Select(pin => pin.Get<int>()).ToArray()
+            })
+            .ToArray();
     }
 
     public IActionResult Index()
