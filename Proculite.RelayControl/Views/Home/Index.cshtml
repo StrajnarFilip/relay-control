@@ -9,9 +9,9 @@
     
     <li class="list-group-item">
         <span>@(pin.Name) (@(pin.Number))</span>
-        <a class="btn btn-success btn-lg">On</a>
-        <a class="btn btn-danger btn-lg">Off</a>
-        <a class="btn btn-info btn-lg">Blink</a>
+        <a class="btn btn-success btn-lg" asp-action="PinOn" asp-route-pin="@(pin.Number)">On</a>
+        <a class="btn btn-danger btn-lg" asp-action="PinOff" asp-route-pin="@(pin.Number)">Off</a>
+        <a class="btn btn-info btn-lg" asp-action="PinBlink" asp-route-pin="@(pin.Number)">Blink</a>
     </li>
 }
 </ul>

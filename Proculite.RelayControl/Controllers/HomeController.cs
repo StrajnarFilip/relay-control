@@ -28,6 +28,33 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpGet]
+    [Route("{pin}")]
+    public IActionResult PinOn(int pin)
+    {
+        _logger.LogInformation("Pin number {number} blink request.", pin);
+        _pinService.PinOn(Request, pin);
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    [Route("{pin}")]
+    public IActionResult PinOff(int pin)
+    {
+        _logger.LogInformation("Pin number {number} blink request.", pin);
+        _pinService.PinOff(Request, pin);
+        return RedirectToAction("Index");
+    }
+
+    [HttpGet]
+    [Route("{pin}")]
+    public IActionResult PinBlink(int pin)
+    {
+        _logger.LogInformation("Pin number {number} blink request.", pin);
+        _pinService.PinBlink(Request, pin);
+        return RedirectToAction("Index");
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
