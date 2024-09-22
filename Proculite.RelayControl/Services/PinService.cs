@@ -9,7 +9,7 @@ namespace Proculite.RelayControl.Services
         private readonly KeyPinControl[] _keyPinControl;
         private readonly Dictionary<string, Pin[]> _pinControlMap;
         private readonly int[] _allPinNumbers;
-        private readonly Dictionary<int, GpioController> _gpioControllerMap;
+        private readonly GpioController _gpioController;
 
         public PinService(IConfiguration configuration)
         {
@@ -40,12 +40,10 @@ namespace Proculite.RelayControl.Services
                 .SelectMany(pinController => pinController.Pins.Select(pin => pin.Number))
                 .ToArray();
 
-            _gpioControllerMap = new();
-
+            _gpioController = new GpioController();
             foreach(int pin in _allPinNumbers)
             {
-                _gpioControllerMap[pin] = new GpioController();
-                _gpioControllerMap[pin].OpenPin(pin);
+                _gpioController.OpenPin(pin);
             }
         }
 
