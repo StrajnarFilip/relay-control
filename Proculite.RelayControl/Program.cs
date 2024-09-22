@@ -1,7 +1,10 @@
+using Proculite.RelayControl.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<PinService>();
 
 var app = builder.Build();
 
