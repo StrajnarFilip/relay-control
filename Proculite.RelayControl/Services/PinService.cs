@@ -54,5 +54,43 @@ namespace Proculite.RelayControl.Services
             Pin[] controlledPins = keyExists ? _pinControlMap[keyCookie] : Array.Empty<Pin>();
             return controlledPins;
         }
+
+        public bool PinIsAccessible(HttpRequest httpRequest, int pinToCheck)
+        {
+            Pin[] accessiblePins = AccessiblePins(httpRequest);
+            return accessiblePins.Any(pin => pin.Number == pinToCheck);
+        }
+
+        public void PinOn(HttpRequest request, int pin)
+        {
+            if(!PinIsAccessible(request, pin))
+            {
+                return;
+            }
+            _gpioController.Write(pin, PinValue.High);
+        }
+
+        public void PinOff(HttpRequest request, int pin)
+        {
+            if(!PinIsAccessible(request, pin))
+            {
+                return;
+            }
+            _gpioController.Write(pin, PinValue.Low);
+        }
+
+        public async Task PinBlink(HttpRequest request, int pin)
+        {
+            if(!PinIsAccessible(request, pin))
+            {
+                return;
+            }
+
+            _gpioController.Write(pin, PinValue.Low);
+            await Task.Delay(500);
+            _gpioController.Write(pin, PinValue.High);
+            await Task.Delay(1000);
+            _gpioController.Write(pin, PinValue.Low);
+        }
     }
 }
