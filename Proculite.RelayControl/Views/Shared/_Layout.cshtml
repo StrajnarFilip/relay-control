@@ -10,13 +10,15 @@
 </head>
 <body>
     <div class="container">
-        <form asp-controller="Home" asp-action="SetKey" method="Post">
+        <form asp-controller="Home" asp-action="SetKey" method="Post" class="form-inline">
             <div class="form-group">
                 <label for="key">Key</label>
                 <input type="password" class="form-control" name="key" id="key">
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary btn-lg">Register</button>
         </form>
+        <br>
+        <br>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
