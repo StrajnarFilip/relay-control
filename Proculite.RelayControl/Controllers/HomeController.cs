@@ -25,9 +25,17 @@ public class HomeController : Controller
         _pinControlMap = _keyPinControl.ToDictionary(pinControl => pinControl.Key, pinControl => pinControl.Pins);
     }
 
+    public int[] AccessiblePins(HttpRequest httpRequest)
+    {
+        string? keyCookie = httpRequest.Cookies["key"];
+        bool keyExists = keyCookie is not null && _pinControlMap.ContainsKey(keyCookie);
+        int[] controlledPins = keyExists ? _pinControlMap[keyCookie] : Array.Empty<int>();
+        return controlledPins;
+    }
+
     public IActionResult Index()
     {
-        return View();
+        return View(AccessiblePins(Request));
     }
 
     [HttpPost]
