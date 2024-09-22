@@ -9,6 +9,7 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly IConfiguration _configuration;
     private readonly KeyPinControl[] _keyPinControl;
+    private readonly Dictionary<string, int[]> _pinControlMap;
 
     public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
     {
@@ -21,6 +22,7 @@ public class HomeController : Controller
                 Pins = keyPinControl.GetSection("Pins").GetChildren().Select(pin => pin.Get<int>()).ToArray()
             })
             .ToArray();
+        _pinControlMap = _keyPinControl.ToDictionary(pinControl => pinControl.Key, pinControl => pinControl.Pins);
     }
 
     public IActionResult Index()
