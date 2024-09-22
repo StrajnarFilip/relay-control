@@ -28,7 +28,8 @@ namespace Proculite.RelayControl.Services
                         .Select(pin => new Pin
                         {
                             Name = pin.GetSection("Name").Get<string>() ?? "",
-                            Number = pin.GetSection("Number").Get<int>()
+                            Number = pin.GetSection("Number").Get<int>(),
+                            Active = pin.GetSection("Active").Get<string>() ?? "low"
                         })
                         .ToArray()
                 })
