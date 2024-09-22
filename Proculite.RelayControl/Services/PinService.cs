@@ -64,6 +64,11 @@ namespace Proculite.RelayControl.Services
             return accessiblePins.Any(pin => pin.Number == pinToCheck);
         }
 
+        public Pin PinByNumber(HttpRequest httpRequest, int pinNumber)
+        {
+            return AccessiblePins(httpRequest).First(pin => pin.Number == pinNumber);
+        }
+
         private void SetPinActive(Pin pin)
         {
             _gpioController.Write(pin.Number, pin.ActiveHigh ? PinValue.High : PinValue.Low);
@@ -74,37 +79,41 @@ namespace Proculite.RelayControl.Services
             _gpioController.Write(pin.Number, pin.ActiveHigh ? PinValue.Low : PinValue.Low);
         }
 
-        public void PinOn(HttpRequest request, int pin)
+        public void PinOn(HttpRequest request, int pinNumber)
         {
-            if (!PinIsAccessible(request, pin))
+            if (!PinIsAccessible(request, pinNumber))
             {
                 return;
             }
-            _gpioController.Write(pin, PinValue.Low);
+
+            var requestedPin = PinByNumber(request, pinNumber);
+            SetPinActive(requestedPin);
         }
 
-        public void PinOff(HttpRequest request, int pin)
+        public void PinOff(HttpRequest request, int pinNumber)
         {
-            if (!PinIsAccessible(request, pin))
+            if (!PinIsAccessible(request, pinNumber))
             {
                 return;
             }
-            _gpioController.Write(pin, PinValue.High);
+
+            var requestedPin = PinByNumber(request, pinNumber);
+            SetPinInactive(requestedPin);
         }
 
-        public async Task PinBlink(HttpRequest request, int pin)
+        public async Task PinBlink(HttpRequest request, int pinNumber)
         {
-            if (!PinIsAccessible(request, pin))
+            if (!PinIsAccessible(request, pinNumber))
             {
                 return;
             }
 
-            _logger.LogInformation("Blinking {number}.", pin);
-            _gpioController.Write(pin, PinValue.High);
-            await Task.Delay(500);
-            _gpioController.Write(pin, PinValue.Low);
+            var requestedPin = PinByNumber(request, pinNumber);
+            SetPinInactive(requestedPin);
+            await Task.Delay(200);
+            SetPinActive(requestedPin);
             await Task.Delay(1000);
-            _gpioController.Write(pin, PinValue.High);
+            SetPinInactive(requestedPin);
         }
     }
 }
