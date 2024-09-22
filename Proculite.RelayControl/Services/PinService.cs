@@ -1,4 +1,5 @@
 using Proculite.RelayControl.Models;
+using System.Device.Gpio;
 
 namespace Proculite.RelayControl.Services
 {
@@ -7,6 +8,7 @@ namespace Proculite.RelayControl.Services
         private readonly IConfiguration _configuration;
         private readonly KeyPinControl[] _keyPinControl;
         private readonly Dictionary<string, Pin[]> _pinControlMap;
+        private readonly int[] _allPinNumbers;
 
         public PinService(IConfiguration configuration)
         {
@@ -32,6 +34,10 @@ namespace Proculite.RelayControl.Services
                 pinControl => pinControl.Key,
                 pinControl => pinControl.Pins
             );
+
+            _allPinNumbers = _keyPinControl
+                .SelectMany(pinController => pinController.Pins.Select(pin => pin.Number))
+                .ToArray();
         }
 
         public Pin[] AccessiblePins(HttpRequest httpRequest)
