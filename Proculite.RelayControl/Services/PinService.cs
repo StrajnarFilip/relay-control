@@ -5,14 +5,16 @@ namespace Proculite.RelayControl.Services
 {
     public class PinService
     {
+        private readonly ILogger<PinService> _logger;
         private readonly IConfiguration _configuration;
         private readonly KeyPinControl[] _keyPinControl;
         private readonly Dictionary<string, Pin[]> _pinControlMap;
         private readonly int[] _allPinNumbers;
         private readonly GpioController _gpioController;
 
-        public PinService(IConfiguration configuration)
+        public PinService(IConfiguration configuration, ILogger<PinService> logger)
         {
+            _logger = logger;
             _configuration = configuration;
             _keyPinControl = configuration
                 .GetSection("KeyPinControl")
@@ -86,6 +88,7 @@ namespace Proculite.RelayControl.Services
                 return;
             }
 
+            _logger.LogInformation("Blinking {number}.", pin);
             _gpioController.Write(pin, PinValue.Low);
             await Task.Delay(500);
             _gpioController.Write(pin, PinValue.High);
